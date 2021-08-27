@@ -1,0 +1,16 @@
+<h1>メモ</h1>
+<div class="index">
+<p><%= @memo["title"] %></p>
+<p><%= @memo["content"] %></p>
+</div>
+
+<div class="button">
+  <a href="/memo/edit/<%= @memo["id"] %>">編集</a>
+</div>
+
+<form class="button" method="post" action="/memo/delete/<%= @memo['id'] %>">
+    <input type="hidden" name="_method" value="delete">
+        <input type="submit" value="削除">
+</form>
+
+
