@@ -1,4 +1,9 @@
 # memo_app
+Opening the App
+
+1. Start the app by using "bundle exec ruby main.rb"
+2. Access too http://localhost:4567/
+
 
 How to use the Sinatra Web Memo app
 
