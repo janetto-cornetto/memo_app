@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 puts "This is process #{Process.pid}"
@@ -11,25 +10,18 @@ require 'json'
 enable :method_override
 
 # json setting & memo.json memo content
-def jsonfile
-  'json/memo.json'
-end
-
-def jsondata
-  File.open('json/memo.json') do |i|
-    JSON.load(i)
-  end
+$json_file = 'json/memo.json'
+$json_data = File.open($json_file) do |i|
+  JSON.load(i)
 end
 
 # get memos array from json data & memo content
-def memos
-  jsondata['memos']
-end
+$memos = $json_data['memos']
 
 # define memo id
 def memo(m_id)
   r_memo = ''
-  memos.each do |memo|
+  $memos.each do |memo|
     if memo['id'].to_s == m_id.to_s
       r_memo = memo
       puts m_id
@@ -41,7 +33,7 @@ end
 # rewrite json
 def overwrite
   File.open('json/memo.json', 'w') do |file|
-    JSON.dump(jsondata, file)
+    JSON.dump($json_data, file)
   end
 end
 
@@ -49,20 +41,20 @@ end
 get '/' do # index
   @heading = 'メモアプリの'
   @subtitle = '魔力'
-  @memos = memos
+  @memos = $memos
   erb :index
 end
 
 # store data
 post '/new' do
   last_id = 0
-  memos.each do |count|
+  $memos.each do |count|
     last_id = count['id'].to_i + 1 if last_id <= count['id'].to_i # adds +1 when count < last_id
   end
 
   # create new data
   new_json_data = { 'id' => last_id.to_s, 'title' => params[:title], 'content' => params[:content] }
-  jsondata['memos'].push(new_json_data)
+  $json_data['memos'].push(new_json_data)
 
   overwrite
   redirect '/'
@@ -84,8 +76,8 @@ end
 # delete memo
 delete '/memo/delete/:id' do
   id = 0
-  memos.each do |d|
-    memos.delete_at(id) if d['id'].to_s == params[:id].to_s
+  $memos.each do |d|
+    $memos.delete_at(id) if d['id'].to_s == params[:id].to_s
     id += 1
   end
   overwrite
@@ -103,10 +95,10 @@ patch '/memo/do-edit/:id' do
   new_json_data = { 'id' => params[:id].to_s, 'title' => params[:title], 'content' => params[:content] }
 
   id = 0
-  memos.each do |edit|
+  $memos.each do |edit|
     if edit['id'].to_s == params[:id].to_s
-      memos[id]['title'] = new_json_data['title']
-      memos[id]['content'] = new_json_data['content']
+      $memos[id]['title'] = new_json_data['title']
+      $memos[id]['content'] = new_json_data['content']
     end
     id += 1
   end
