@@ -37,12 +37,12 @@ def memo(m_id)
 end
 
 # rewrite json
-# def overwrite
-#   copied_data = jsondata
-#   File.open(json_path, 'w') do |file|
-#     JSON.dump(copied_data, file)
-#   end
-# end
+def overwrite
+  copied_data = jsondata
+  File.open(json_path, 'w') do |file|
+    JSON.dump(copied_data, file)
+  end
+end
 
 # show each page
 get '/' do # index
