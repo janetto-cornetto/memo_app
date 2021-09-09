@@ -1,0 +1,7 @@
+<h2>メモの編集</h2>
+<form method="post" action="/memo/do-edit/<%= @memo['id'] %>">
+	<input type="text" name="title" class="memo-title border" value="<%= @memo["title"] %>">
+	<textarea name="content" class="memo-body border"><%= @memo["content"] %></textarea>
+    <input type="hidden" name="_method" value="PATCH">
+	<input type="submit" value="edit done" class="button add">
+</form>
